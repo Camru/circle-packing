@@ -9,26 +9,26 @@ class Circle {
 	constructor() {
 		this.x = Math.random() * ctx.height;
 		this.y = Math.random() * ctx.width;
-		this.rad = Math.random() * 100 + 50;
+		this.rad = Math.random() * 100 + 10;
 		this.startAng = 0;
 		this.endAng = 2*Math.PI;
 	}
 }
 
 
-function distBetweenCircles(prev, cur) {
+function distanceGreaterThanRadii(prev, cur) {
 	let dist = Math.sqrt(((cur.x - prev.x) * (cur.x - prev.x)) + ((cur.y - prev.y) * (cur.y - prev.y)));
 	return dist > (prev.rad + cur.rad) ? true : false;
 }
 
 function drawCircle(newCircle) {
 	let c = newCircle; 
-	ctx.strokeStyle = "#000";
+
 	ctx.fillStyle = "#fff";
-	if (c.rad < 50) {
-		ctx.strokeStyle = "blue";
-		ctx.fillStyle = "#000";
-	}
+
+	ctx.strokeStyle = (c.rad) < 50 ? "blue" : "#000";
+	ctx.fillStyle = (c.rad) < 50 ? "#000" : "blue";
+
 	ctx.beginPath();
 	ctx.arc(c.x, c.y, c.rad, c.startAng, c.endAng);
 	ctx.fill();
@@ -37,15 +37,15 @@ function drawCircle(newCircle) {
 	circlesDrawn.push(c);
 }
 
-function tryCircle() {
-
+function fitCircle() {
 	let c = new Circle();
+	const len = circlesDrawn.length;
 
-	if (circlesDrawn.length < 2) {
+	if (len < 2) {
 		drawCircle(c);
 	} else {
-		for (let i = 0; i < circlesDrawn.length; i++) {
-			if (!distBetweenCircles(circlesDrawn[i], c)) {
+		for (let i = 0; i < len; i++) {
+			if (!distanceGreaterThanRadii(circlesDrawn[i], c)) {
 				return;
 			}
 		}
@@ -53,10 +53,10 @@ function tryCircle() {
 	}
 }
 
-function draw(timestamp) {
-	tryCircle();
+function loop(timestamp) {
+	fitCircle();
 
-	requestAnimationFrame(draw);
+	requestAnimationFrame(loop);
 }
 
-draw();
+loop();
