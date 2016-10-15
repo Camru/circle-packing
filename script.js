@@ -16,9 +16,14 @@ class Circle {
 }
 
 
-function distanceGreaterThanRadii(prev, cur) {
-	let dist = Math.sqrt(((cur.x - prev.x) * (cur.x - prev.x)) + ((cur.y - prev.y) * (cur.y - prev.y)));
-	return dist > (prev.rad + cur.rad) ? true : false;
+function isValid(cur) {
+	for (let i = 0; i < circlesDrawn.length; i++) {
+		const prev = circlesDrawn[i];
+		const dx = cur.x - prev.x;
+		const dy = cur.y - prev.y;
+		const diff = Math.sqrt(dx*dx + dy*dy);
+		return diff > (prev.rad + cur.rad) ? true : false;
+	}
 }
 
 function drawCircle(newCircle) {
@@ -39,18 +44,14 @@ function drawCircle(newCircle) {
 
 function fitCircle() {
 	let c = new Circle();
-	const len = circlesDrawn.length;
 
-	if (len < 2) {
-		drawCircle(c);
-	} else {
-		for (let i = 0; i < len; i++) {
-			if (!distanceGreaterThanRadii(circlesDrawn[i], c)) {
-				return;
-			}
-		}
-		drawCircle(c);
-	}
+	while (!isValid(c)) {
+		c.x = Math.random() * ctx.height;
+		c.y = Math.random() * ctx.width;
+	} 
+
+	drawCircle(c);
+
 }
 
 function loop(timestamp) {
