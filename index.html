@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <title>circle packing algorithm</title>
     <link href="styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
   </head>
   <body>
-  <canvas id="canvas" width="800" height="600"></canvas>
+  <div class="container">
+  <div class="controls">
+  <div class="input-container">
+  	<input type="range" value="0" id="slider" min="0" max="5000" step="1" oninput="sliderUpdate(this.value)">
+  	</div>
+  	<div class="btn-group">
+	  	<button type="button" class="btn" onclick="autoFill()">Auto-Fill</button>
+	  	<button type="button" class="btn btn-secondary" onclick="clearCircles()">Clear</button>
+	  	<button type="button" id="overdrive" class="btn btn-overdrive" onclick="toggleOverdrive()">Overdrive: OFF</button>
+  	</div>
+  	<div class="text-group">
+  		<h1 id="count">Circles: 0</h1>
+  		<h1 id="area">Pixels Left: 400000</h1>
+  	</div>
+  </div>
+  <canvas id="canvas" width="800" height="500"></canvas>
+  </div>
   <script src="script.js"></script>
   </body>
 </html>
